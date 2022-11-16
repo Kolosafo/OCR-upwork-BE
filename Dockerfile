@@ -1,12 +1,13 @@
 FROM python:3.10-slim
 
+COPY ./entrypoint.sh /entrypoint.sh
 COPY ./build /views
 COPY ./requirements.txt /requirements.txt
 
 RUN apt-get update && \
     apt-get install -y \
         build-essential \
-         python-dev \
+        python3-setuptools \
         tesseract-ocr \
         make \
         gcc \
@@ -14,3 +15,8 @@ RUN apt-get update && \
     && apt-get remove -y --purge make gcc build-essential \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
+
+RUN chmod +x entrypoint.sh
+
+
+CMD ["./entrypoint.sh"]
