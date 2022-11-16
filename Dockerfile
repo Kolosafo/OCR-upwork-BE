@@ -1,6 +1,5 @@
 FROM python:3.10-slim
 
-COPY ./entrypoint.sh /entrypoint.sh
 COPY ./build /views
 COPY ./requirements.txt /requirements.txt
 
@@ -18,7 +17,7 @@ RUN apt-get update && \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN chmod +x entrypoint.sh
+EXPOSE 8000
 
 
-CMD ["./entrypoint.sh"]
+CMD ["python", "manage.py", "runserver"]
