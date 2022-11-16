@@ -1,6 +1,5 @@
 FROM python:3.10-slim
 
-COPY ./manage.py /manage.py
 COPY ./build /views
 COPY ./requirements.txt /requirements.txt
 
@@ -20,5 +19,5 @@ RUN apt-get update && \
 
 # RUN chmod +x manage.py
 
-
+WORKDIR /code
 CMD ["python", "manage.py", "runserver"]
