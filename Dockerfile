@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
 COPY ./entrypoint.sh /entrypoint.sh
-COPY ./build /views
+COPY ./ocr_backend /ocr_backend
 COPY ./requirements.txt /requirements.txt
 
 RUN apt-get update && \
