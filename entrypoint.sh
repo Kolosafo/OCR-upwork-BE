@@ -3,4 +3,4 @@
 RUN_PORT=${PORT:-8000}
 # gunicorn --worker-tmp-dir /dev/shm ocr_backend.wsgi
 
-python manage.py runserver --noinput || exit 1
+/usr/local/bin/gunicorn --worker-tmp-dir /dev/shm -k python manage.py runserver --bind  "0.0.0.0:${RUN_PORT}"
