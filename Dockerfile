@@ -6,7 +6,7 @@ COPY ./requirements.txt /requirements.txt
 RUN apt-get update && \
     apt-get install -y \
         build-essential \
-        python-dev \
+         python-dev \
         tesseract-ocr \
         make \
         gcc \
