@@ -16,8 +16,8 @@ RUN apt-get update && \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN chmod +x entrypoint.sh
+# RUN chmod +x entrypoint.sh    
 
-EXPOSE 8000
+# EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver"]
+CMD gunicorn ocr_backend.wsgi:application --bind 0.0.0.0:$PORT
