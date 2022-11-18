@@ -18,14 +18,16 @@ def main(request, id=None):
     read_bytes = io.BytesIO(image_data.read())
     open_img = Image.open(read_bytes)
     preds = pytesseract.image_to_string(open_img)
-    print("JUST THE IMAGE", preds)
+    predictions = [x for x in preds.split("\n")]
+
+    # print("JUST THE IMAGE", preds)
 
     # media_root = settings.MEDIA_ROOT
 
     if not id:
-        extracted = {'id': 'No ID', 'text': preds}
+        extracted = {'id': 'No ID', 'text': predictions}
     else:
-        extracted = {'id': id, 'text': preds}
+        extracted = {'id': id, 'text': predictions}
     # match_img = (os.path.exists(media_root + "\\" + str(image)))
 
 
