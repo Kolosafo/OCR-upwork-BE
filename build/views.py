@@ -18,7 +18,7 @@ def main(request, id=None):
     read_bytes = io.BytesIO(image_data.read())
     open_img = Image.open(read_bytes)
     preds = pytesseract.image_to_string(open_img)
-    predictions = [x for x in preds.split("\n").strip()]
+    predictions = [x for x in preds.split("\n")]
 
     # print("JUST THE IMAGE", preds)
 
