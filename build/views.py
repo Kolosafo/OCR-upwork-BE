@@ -3,15 +3,15 @@ from rest_framework.response import Response
 
 
 import pytesseract
-from django.conf import settings
 from PIL import Image
 import io
+
 
 # Create your views here.
 
 
 @api_view(['POST'])
-def main(request, id=None):
+def main(request):
 
     image_data = request.data['image']
 
@@ -20,15 +20,12 @@ def main(request, id=None):
     preds = pytesseract.image_to_string(open_img)
     predictions = [x for x in preds.split("\n")]
 
-    # print("JUST THE IMAGE", preds)
-
-    # media_root = settings.MEDIA_ROOT
-
-    if not id:
-        extracted = {'id': 'No ID', 'text': predictions}
-    else:
+    try:
+        id = request.data['id']
         extracted = {'id': id, 'text': predictions}
-    # match_img = (os.path.exists(media_root + "\\" + str(image)))
-
+    except Exception as E:
+        # No ID return
+        extracted = {'id': 'null', 'text': predictions}
+        pass
 
     return Response(extracted)
