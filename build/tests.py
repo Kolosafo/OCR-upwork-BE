@@ -14,13 +14,12 @@ load_dotenv()
 
 
 # Create your tests here.
-
-url = reverse("main")
-MEDIA_ROOT = pathlib.Path(settings.MEDIA_ROOT + "\\images")
 api_key = env['APP_AUTH_TOKEN']
+url = reverse("main", kwargs={'api_key': api_key})
+MEDIA_ROOT = pathlib.Path(settings.MEDIA_ROOT + "\\images")
 
 
-class ExtractionTestCase(APITestCase):
+class Development_Extraction_TestCase(APITestCase):
     def test_extraction(self):
         for image in MEDIA_ROOT.glob("*"):
             print("I DEY CHECK IMAGE", image)
@@ -43,7 +42,7 @@ class ExtractionTestCase(APITestCase):
 
     def test_multiple_image_extractions(self):
         extractions = []
-        content_type = 'application/json'
+        content_type = 'text/html'
         for index, image in enumerate(MEDIA_ROOT.glob("*")):
             try:
                 img_exists = Image.open(image)

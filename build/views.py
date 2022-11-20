@@ -17,15 +17,14 @@ load_dotenv()
 
 
 @api_view(['POST'])
-def main(request):
+def main(request, api_key):
     auth_key = env['APP_AUTH_TOKEN']
-    if not request.data['api_key'] == auth_key:
+    if not api_key == auth_key:
         raise exceptions.AuthenticationFailed("INCORRECT API KEY")
 
     image_data = request.data['image']
 
     read_bytes = io.BytesIO(image_data.read())
-    print("READING BYTES", read_bytes)
     open_img = Image.open(read_bytes)
     preds = pytesseract.image_to_string(open_img)
     predictions = [x for x in preds.split("\n")]
