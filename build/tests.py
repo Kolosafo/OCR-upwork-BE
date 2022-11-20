@@ -5,15 +5,22 @@ from django.conf import settings
 import pathlib
 from PIL import Image
 
+from os import environ as env
+from dotenv import load_dotenv
+
+
+# LOADING ENVIRONMENT VARIABLE
+load_dotenv()
+
 
 # Create your tests here.
 
 url = reverse("main")
 MEDIA_ROOT = pathlib.Path(settings.MEDIA_ROOT + "\\images")
+api_key = env['APP_AUTH_TOKEN']
 
 
 class ExtractionTestCase(APITestCase):
-
     def test_extraction(self):
         for image in MEDIA_ROOT.glob("*"):
             print("I DEY CHECK IMAGE", image)
@@ -23,7 +30,8 @@ class ExtractionTestCase(APITestCase):
                 img_exists = None
             # open(image, 'rb')
             # print("media root ->", image)
-            response = self.client.post(url, data={"image": open(image, 'rb')})
+            response = self.client.post(
+                url, data={"image": open(image, 'rb'), "api_key": api_key})
 
         if img_exists is None:
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -42,7 +50,7 @@ class ExtractionTestCase(APITestCase):
             except:
                 img_exists = None
             response = self.client.post(
-                url, data={"image": open(image, 'rb'), "id": index})
+                url, data={"image": open(image, 'rb'), "id": index, "api_key": api_key})
             extractions.append(response.json())
         # we need multiple images (more than 1)
         print("EXTRACTED", extractions)
