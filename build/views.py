@@ -24,6 +24,7 @@ def main(request):
 
     image_data = request.data['image']
 
+    print("READING BYTES", read_bytes)
     read_bytes = io.BytesIO(image_data.read())
     open_img = Image.open(read_bytes)
     preds = pytesseract.image_to_string(open_img)
